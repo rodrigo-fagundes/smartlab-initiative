@@ -1,5 +1,12 @@
 <template>
-  <v-col :class="cls || 'xs12'">
+  <v-col :class="cls"
+    cols="12"
+    :xs="getColSize('xs',cls) || 12"
+    :sm="getColSize('sm',cls)"
+    :md="getColSize('md',cls)"
+    :lg="getColSize('lg',cls)"
+    :xl="getColSize('xl',cls)"
+  >
     <v-row v-if="structure?.look !== 'minicard'" class="ml-2 mb-2" wrap>
       <v-col cols="12" class="display-1-obs ranking-list-title pb-2" ><span v-html="title"></span></v-col>
       <v-col v-if="errorMessage" cols="12" class="display-1-obs ranking-list-text pb-2">
@@ -11,7 +18,7 @@
         cols="12"
         class="ranking-list pa-0"
       >
-        <div :class="`ranking-list-text ${structure?.text_size ? '-' + structure.text_size : ''}`" v-html="`<span>${item.rank ? item.rank : itemIndx + 1}. </span> ${item.localidade} ${item.vl_indicador ? item.vl_indicador : ''}`" />
+        <div :class="`text-left ranking-list-text ${structure?.text_size ? '-' + structure.text_size : ''}`" v-html="`<span>${item.rank ? item.rank : itemIndx + 1}. </span> ${item.localidade} ${item.vl_indicador ? item.vl_indicador : ''}`" />
       </v-col>
     </v-row>
     <v-row
@@ -53,7 +60,7 @@ export default defineComponent({
     const cls = ref<string>(props.structure?.cls || "xs12")
     const title = ref<string | null>(props.structure?.title || null)
     const errorMessage = ref<string | null>(null)
-    const { $fillDataStructure } = useNuxtApp()
+    const { $fillDataStructure, $getColSize } = useNuxtApp()
 
 
     const fillRankingList = (base_object_list: any, rules: any, _preloaded: any, _addedParams: any = null, _metadata: any = null) => {
@@ -124,7 +131,8 @@ export default defineComponent({
       cls,
       title,
       errorMessage,
-      ranking
+      ranking,
+      getColSize: $getColSize
     }
   }
 })

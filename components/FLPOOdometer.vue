@@ -56,7 +56,6 @@ import { NumberTransformService } from "~/utils/service/singleton/numberTransfor
 import { TextTransformService } from "~/utils/service/singleton/textTransform"
 const textTransformService = new TextTransformService()
 const numberTransformService = new NumberTransformService()
-const { $getColSize } = useNuxtApp()
 
 export default defineComponent({
   props: {
@@ -81,7 +80,7 @@ export default defineComponent({
     const commentItems = ref<string[]>([])
     const commentData = ref<string>("")
     const dtOdometros = ref<OdometerDataItem[]>([])
-    const getColSize = $getColSize
+    const { $getColSize } = useNuxtApp()
     const startCounter = (id: string, options: any, comment = "") => {
       if (comment) {
         buildCommentData(comment, options)
@@ -122,7 +121,7 @@ export default defineComponent({
           commentData.value = comment.fixed
         }
       } else if (comment.template !== undefined) { // caso o campo tenha um texto fixo, o valor é ajustado e o loop segue para a próxima iteração
-        super.setComplexAttribute(options, [comment], comment, { attribute: "commentData" })
+        super.setComplexAttribute(options, [comment], comment, { attribute: "commentData", attribRefs: {commentData: commentData} })
       }
       commentItems.value.push(commentData.value)
     }
@@ -173,7 +172,7 @@ export default defineComponent({
       startCounter,
       updateOdometer,
       numberTransformService,
-      getColSize
+      getColSize: $getColSize
     }
   }
 })

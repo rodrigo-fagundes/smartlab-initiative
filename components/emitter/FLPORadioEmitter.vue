@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-col>
     <v-radio-group
       v-model="chosen"
       class="pa-0"
@@ -8,27 +8,25 @@
       <v-radio
         v-for="item in structure?.items"
         :key="item.id"
-        :color="item.color ? item.color : 'accent'"
+        :color="item.color || 'accent'"
         :value="item.value"
-        @change="toggleRadio(item)"
+        @update:model-value="toggleRadio(item)"
       >
         <template #label>
           <v-row align="center">
-            <v-col ><span v-html="item.label ? item.label : ''"></span></v-col>
-            <v-col>
-              <FLPOMinicard
-                v-for="(miniCard, index) in item.minicards"
-                :key="index"
-                :structure="miniCard"
-                :custom-params="customParams"
-                row-class="pa-1"
-              />
-            </v-col>
+            <v-col class="d-flex"><span v-html="item.label || ''"></span></v-col>
+            <FLPOMinicard
+              v-for="(miniCard, index) in item.minicards"
+              :key="index"
+              :structure="miniCard"
+              :custom-params="customParams"
+              row-class="pa-1"
+            />
           </v-row>
         </template>
       </v-radio>
     </v-radio-group>
-  </v-container>
+  </v-col>
 </template>
 
 <script lang="ts">

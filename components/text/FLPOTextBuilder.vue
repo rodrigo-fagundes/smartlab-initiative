@@ -1,56 +1,58 @@
 <template>
   <v-row :class="structure && structure.cls ? structure.cls : 'ma-0 pa-2'"
   >
-    <v-row v-if="structure?.columns" class="pa-2">
-      <v-col v-if="readMoreLimit && !maxedOut" class="d-flex flex-column pl-0 py-0 pb-0 body-obs">
-        <div
-          v-if="collapsed"
-          :class="'d-inline-block ' + (structure.cls ? structure.cls : '')"
-          :style="mdAndUp ? 'column-gap: 4rem; column-count: ' + structure.columns : ''"
-          v-html="finalShortText"
-        ></div>
-        <div
-          v-else
-          :class="'d-inline-block ' + (structure.cls ? structure.cls : '')"
-          :style="mdAndUp ? 'column-gap: 4rem; column-count: ' + structure.columns : ''"
-          v-html="finalText"
-        ></div>
-        <v-btn variant="text" color="accent" class="read-more-less" @click="toggleCollapseExpand()">
-          <span v-html="cmpTextMoreLess"></span>
-          <v-icon :class="assessMoreLess">mdi-chevron-down</v-icon>
-        </v-btn>
-      </v-col>
+    <v-col>
+      <v-row v-if="structure?.columns" class="pa-2">
+        <v-col v-if="readMoreLimit && !maxedOut" class="d-flex flex-column pl-0 py-0 pb-0 body-obs">
+          <div
+            v-if="collapsed"
+            :class="'d-inline-block text-left ' + (structure.cls ? structure.cls : '')"
+            :style="mdAndUp ? 'column-gap: 4rem; column-count: ' + structure.columns : ''"
+            v-html="finalShortText"
+          ></div>
+          <div
+            v-else
+            :class="'d-inline-block text-left ' + (structure.cls ? structure.cls : '')"
+            :style="mdAndUp ? 'column-gap: 4rem; column-count: ' + structure.columns : ''"
+            v-html="finalText"
+          ></div>
+          <v-btn variant="text" color="accent" class="read-more-less text-left" @click="toggleCollapseExpand()">
+            <span v-html="cmpTextMoreLess"></span>
+            <v-icon :class="assessMoreLess">mdi-chevron-down</v-icon>
+          </v-btn>
+        </v-col>
 
-      <v-col v-else :class="'d-inline-block ' + (structure.cls ? structure.cls : 'pl-2 py-0 pb-3')" body-obs>
-        <div
-          :style="mdAndUp ? 'column-gap: 4rem; column-count: ' + structure.columns : ''"
-          v-html="finalText"
-        ></div>
-      </v-col>
-    </v-row>
+        <v-col v-else :class="'body-obs text-left d-inline-block ' + (structure.cls ? structure.cls : 'pl-2 py-0 pb-3')">
+          <div
+            :style="mdAndUp ? 'column-gap: 4rem; column-count: ' + structure.columns : ''"
+            v-html="finalText"
+          ></div>
+        </v-col>
+      </v-row>
 
-    <v-row v-else class="pa-2">
-      <v-col v-if="readMoreLimit && !maxedOut" class="d-flex flex-column pl-0 py-0 pb-0 body-obs">
-        <span
-          v-if="collapsed"
-          :class="'d-inline-block ' + (structure?.cls ? structure.cls : '')"
-          v-html="finalShortText"
-        ></span>
-        <span
-          v-else
-          :class="'d-inline-block ' + (structure?.cls ? structure.cls : '')"
-          v-html="finalText"
-        ></span>
-        <v-btn variant="text" color="accent" class="read-more-less" @click="toggleCollapseExpand()">
-          <span v-html="cmpTextMoreLess"></span>
-          <v-icon :class="assessMoreLess">mdi-chevron-down</v-icon>
-        </v-btn>
-      </v-col>
+      <v-row v-else class="pa-2">
+        <v-col v-if="readMoreLimit && !maxedOut" class="d-flex flex-column pl-0 py-0 pb-0 body-obs">
+          <span
+            v-if="collapsed"
+            :class="'d-inline-block text-left ' + (structure?.cls ? structure.cls : '')"
+            v-html="finalShortText"
+          ></span>
+          <span
+            v-else
+            :class="'d-inline-block text-left ' + (structure?.cls ? structure.cls : '')"
+            v-html="finalText"
+          ></span>
+          <v-btn variant="text" color="accent" class="read-more-less text-left" @click="toggleCollapseExpand()">
+            <span v-html="cmpTextMoreLess"></span>
+            <v-icon :class="assessMoreLess">mdi-chevron-down</v-icon>
+          </v-btn>
+        </v-col>
 
-      <v-col v-else :class="'d-inline-block ' + (structure?.cls ? structure.cls : 'pl-2 py-0 pb-3')" body-obs>
-        <span v-html="finalText"></span>
-      </v-col>
-    </v-row>
+        <v-col v-else :class="'d-inline-block body-obs text-left ' + (structure?.cls ? structure.cls : 'pl-2 py-0 pb-3')">
+          <span v-html="finalText"></span>
+        </v-col>
+      </v-row>
+    </v-col>
   </v-row>
 </template>
 
@@ -67,8 +69,8 @@ export default defineComponent({
   props: {
     structure: Object,
     customParams: Object,
-    readMoreLimit: Number,
-    reactiveFilter: String,
+    readMoreLimit: String,
+    reactiveFilter: Object,
   },
   setup(props) {
     const { mdAndUp } = useDisplay()

@@ -164,7 +164,7 @@ export default defineComponent({
             miniRefs[rule.prop].value = rule.fixed
           }
         } else if (rule.template !== undefined) {
-          setComplexAttribute(baseObjectList, [rule], rule, { attribute: rule.prop }, metadata)
+          setComplexAttribute(baseObjectList, [rule], rule, { attribute: rule.prop, attribRefs: miniRefs }, metadata)
         } else if (rule.id === undefined) {
           if (baseObjectList && typeof baseObjectList === "object" && baseObjectList.length > 0) {
             miniRefs[rule.prop].value = indicators.getAttributeFromIndicatorInstance(rule, baseObjectList[0])
@@ -222,7 +222,7 @@ export default defineComponent({
     onBeforeMount(() => {
       relevance.value = props.structure?.relevance
       if (props.structure?.cls) cardClass.value = props.structure.cls
-      if (props.structure?.color) colorClass.value = " " + props.structure.color
+      if (props.structure?.color) colorClass.value = " bg-" + props.structure.color
       $fillDataStructure(
         props.structure, 
         props.customParams,

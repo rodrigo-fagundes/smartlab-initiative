@@ -1,36 +1,41 @@
 <template>
-  <v-row class="align-center">
+  <v-row align="center" wrap>
     <v-col
       v-for="eachSwitch in structure?.switches"
       :key="eachSwitch.id"
-      :class="'ma-0 ' + (eachSwitch.cls ? eachSwitch.cls : ' pb-0 pl-3 xs12')"
+      :cols="12"
+      :class="'ma-0 ' + (eachSwitch.cls || 'pb-0 pl-3')"
     >
-      <v-col v-if="eachSwitch.title" class="title-obs pa-0">
-        {{ eachSwitch.title }}
-      </v-col>
-      <v-switch
-        v-model="selection[eachSwitch.id]"
-        class="ma-0 pa-0"
-        hide-details
-        :color="eachSwitch.color ?? 'primary'"
-        :readonly="!!eachSwitch.readonly"
-        @change="toggleSwitch(eachSwitch)"
-      >
-        <template #label>
-          <v-row class="align-center">
-            <v-col>
-              {{ eachSwitch.label || '' }}
-            </v-col>
-            <FLPOMinicard
-              v-for="(miniCard, index) in eachSwitch.minicards"
-              :key="index"
-              :structure="miniCard"
-              :custom-params="customParams"
-              :row-class="miniCard.rowClass || 'pa-1'"
-            />
-          </v-row>
-        </template>
-      </v-switch>
+      <v-row>
+        <v-col v-if="eachSwitch.title" class="title-obs pa-0">
+          {{ eachSwitch.title }}
+        </v-col>
+        <v-col>
+          <v-switch
+            v-model="selection[eachSwitch.id]"
+            class="ma-0 pa-0"
+            hide-details
+            :color="eachSwitch.color || 'primary'"
+            :readonly="!!eachSwitch.readonly"
+            @update:model-value="toggleSwitch(eachSwitch)"
+          >
+            <template #label>
+              <v-row align="center">
+                <v-col>
+                  {{ eachSwitch.label || '' }}
+                </v-col>
+                <FLPOMinicard
+                  v-for="(miniCard, index) in eachSwitch.minicards"
+                  :key="index"
+                  :structure="miniCard"
+                  :custom-params="customParams"
+                  :row-class="miniCard.rowClass || 'pa-1'"
+                />
+              </v-row>
+            </template>
+          </v-switch>
+        </v-col>
+      </v-row>
     </v-col>
   </v-row>
 </template>

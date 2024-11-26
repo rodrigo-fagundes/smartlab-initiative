@@ -3,7 +3,12 @@
     <v-col
       v-for="eachItem in structure?.items"
       :key="eachItem.id"
-      :class="'ma-0 ' + (eachItem.cls ? eachItem.cls : 'pb-0 pl-3 xs12')"
+      :class="'ma-0 ' + (eachItem.cls ? eachItem.cls : 'pb-0 pl-3')"
+      :xs="getColSize('xs',eachItem.cls) || 12"
+      :sm="getColSize('sm',eachItem.cls)"
+      :md="getColSize('md',eachItem.cls)"
+      :lg="getColSize('lg',eachItem.cls)"
+      :xl="getColSize('xl',eachItem.cls)"
     >
       <v-row>
         <v-col cols="1" class="pt-1 pr-3">
@@ -29,6 +34,12 @@ export default defineComponent({
   props: {
     id: String,
     structure: Object
+  },
+  setup() {
+    const { $getColSize } = useNuxtApp()
+    return {
+      getColSize: $getColSize
+    }  
   }
 })
 </script>

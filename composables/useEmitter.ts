@@ -13,7 +13,9 @@ export function useEmitter(props: any, emit: any) {
   const { $fillDataStructure } = useNuxtApp()
 
   const toItems = (dataset: any, rules: any, _preloaded: any, _addedParams: any = null, _metadata: any = null) => {
-    dataset.forEach((row: any) => toItem(row, rules))
+    if (dataset) {
+      dataset.forEach((row: any) => toItem(row, rules))
+    }
   }
 
   const toItem = (eachRow: any, rules: any) => {
@@ -40,6 +42,7 @@ export function useEmitter(props: any, emit: any) {
           }
         )
       }
+      eachItem[rule.prop as keyof typeof eachItem] = currItem
     })
     items.value.push(eachItem)
   }

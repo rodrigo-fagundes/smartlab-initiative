@@ -1,13 +1,13 @@
 <template>
-  <v-col py="0">
+  <v-row class="py-0">
     <v-checkbox
       :key="structure?.value"
       v-model="checkValue"
-      :color="structure?.color ? structure.color : 'accent'"
-      :label="structure?.label ? structure.label : ''"
-      @change="sendSelection"
+      :color="structure?.color || 'accent'"
+      :label="structure?.label || ''"
+      @update:model-value="sendSelection"
     />
-  </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">

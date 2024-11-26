@@ -1,32 +1,33 @@
 <template>
-  <v-flex>
-    <!-- :filter="ignoreSpecialCharFilter" -->
+  <v-col>
     <v-autocomplete
       v-model="chosen"
       :items="items"
-      :outline="isOutline"
+      :filter="ignoreSpecialCharFilter"
+      :variant="isOutline ? 'outlined' : 'filled'"
       :label="structure?.label"
       item-text="label"
       :placeholder="structure?.placeholder"
       item-value="id"
       class="input-group--focused"
       return-object
-      :color="structure?.color ? structure.color : 'primary'"
-      :multiple="structure?.multiple ? structure.multiple : false"
-      :clearable="structure?.clearable == null || structure.clearable == undefined || structure.clearable"
+      :color="structure?.color || 'primary'"
+      :multiple="structure?.multiple || false"
+      :clearable="structure?.clearable ?? true"
       :hint="errorMessage"
       persistent-hint
-      @change="sendSelection"
+      @update:model-value="sendSelection"
     />
-  </v-flex>
+  </v-col>
 </template>
+
 
 <script lang="ts">
 import { defineComponent, ref } from "vue"
 import { useEmitter } from "~/composables/useEmitter"
-// import { TextTransformService } from "~/utils/service/singleton/textTransform"
+import { TextTransformService } from "~/utils/service/singleton/textTransform"
 
-// const textTransformService = new TextTransformService()
+const textTransformService = new TextTransformService()
 
 export default defineComponent({
   props: {
@@ -37,8 +38,8 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
-    reactiveFilter: [Object, Array],
-    reactiveParent: Array,
+    reactiveFilter: Object,
+    reactiveParent: String,
     isOutline: Boolean
   },
   setup(props, { emit }) {
@@ -77,11 +78,11 @@ export default defineComponent({
       }
     }
 
-    // const ignoreSpecialCharFilter = (item, queryText, itemText) => {
-    //   queryText = textTransformService.replaceSpecialCharacters(queryText).toLowerCase()
-    //   itemText = textTransformService.replaceSpecialCharacters(itemText).toLowerCase()
-    //   return itemText.includes(queryText)
-    // }
+    const ignoreSpecialCharFilter = (item: any, queryText: string, itemText: string): boolean => {
+      queryText = textTransformService.replaceSpecialCharacters(queryText).toLowerCase()
+      itemText = textTransformService.replaceSpecialCharacters(itemText).toLowerCase()
+      return itemText.includes(queryText)
+    }
 
     const sendSelection = () => {
       emit("change", chosen.value)
@@ -97,7 +98,7 @@ export default defineComponent({
       chosen,
       items,
       errorMessage,
-      // ignoreSpecialCharFilter,
+      ignoreSpecialCharFilter,
       toItems,
       sendSelection
     }
