@@ -85,7 +85,13 @@
               </div>
               <div class="section-description" v-html="section.description" />
             </v-col>
-            <v-col v-if="section.complement" :class="section.cls ? section.cls : 'col-9'">
+            <v-col v-if="section.complement"
+              :xs="getColSize('xs',section.cls) || 9"
+              :sm="getColSize('sm',section.cls)"
+              :md="getColSize('md',section.cls)"
+              :lg="getColSize('lg',section.cls)"
+              :xl="getColSize('xl',section.cls)"
+            >
               <div class="section-title">
                 {{ section.title }}
               </div>
@@ -94,7 +100,11 @@
             <v-col
               v-if="section.complement"
               class="section-complement"
-              :class="section.complement.cls ? section.complement.cls : 'col-3'"
+              :xs="getColSize('xs',section.complement.cls) || 3"
+              :sm="getColSize('sm',section.complement.cls)"
+              :md="getColSize('md',section.complement.cls)"
+              :lg="getColSize('lg',section.complement.cls)"
+              :xl="getColSize('xl',section.complement.cls)"
             >
               <FLPOMinicard
                 v-for="(miniCard, indexMinicard) in section.complement.minicards"
@@ -155,7 +165,6 @@ import { storeToRefs } from "pinia"
 import { NavigationService } from "~/utils/service/singleton/navigation"
 import { ColorsService } from "~/utils/service/singleton/colors.js"
 import { useRoute, useRouter } from "vue-router"
-// import { useNuxtApp } from "#app"
 
 export default {
   setup() {
@@ -167,6 +176,7 @@ export default {
     const { mdAndUp, xlAndUp } = useDisplay()
     const idParallaxfile = ref(0)
     const isFading = ref(false)
+    const { $getColSize } = useNuxtApp()
 
     const { smartlab, observatories, currentObs, currentObsId, currentDimension } = storeToRefs(store)
 
@@ -254,7 +264,8 @@ export default {
       parallaxFile,
       currentParallax,
       xlAndUp,
-      isFading
+      isFading,
+      getColSize: $getColSize
     }
   }
 }

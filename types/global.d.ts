@@ -285,6 +285,8 @@ declare global {
     source:                 Source;
     headers:                Header[];
     footer:                 TextItem[];
+    main_title:             TextItem|RadioGroupItem|SelectItem|SwitchGroupItem|MinicardGroupItem|SliderItem[];
+    info:                   TextItem|RadioGroupItem|SelectItem|SwitchGroupItem|MinicardGroupItem|SliderItem[];
     description:            TextItem|RadioGroupItem|SelectItem|SwitchGroupItem|MinicardGroupItem|SliderItem[];
     description_right?:     TextItem|RadioGroupItem|SelectItem|SwitchGroupItem|MinicardGroupItem|SliderItem[];
     description_bottom?:    TextItem|RadioGroupItem|SelectItem|SwitchGroupItem|MinicardGroupItem|SliderItem[];

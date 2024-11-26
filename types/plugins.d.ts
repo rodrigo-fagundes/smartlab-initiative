@@ -26,7 +26,7 @@ declare module "#app" {
     $openBugDialog(cardTitle: any): void
     $openAuthenticatioDialog(): void
     $getEscopo(idLocalidade: string): "brasil" | "mptreg" | "prtptm" | "regiao" | "estado" | "mesorregiao" | "microrregiao" | "municipio"
-    $getColSize(screenSize: string, classes: string): string | undefined
+    $getColSize(screenSize: string, classes: string | undefined): string | undefined
     $buildChartAdditionalOptions(store: MainStore, chartType: string, structure: any, chartOptions: any, dataset: any, metadata: any, sectionIndex: number = 0): any
     $chartGen(store: MainStore, id: string, chartType: string, structure: any, chartOptions: any, dataset: any, metadata: any, sectionIndex: number = 0): Promise<unknown> | undefined
     $chartRegen(store: MainStore, chartHandler: any, id: string, chartType: string, structure: any, chartOptions: any, dataset: any, metadata: any, sectionIndex: number = 0): Promise<unknown> | undefined
@@ -61,7 +61,7 @@ declare module "vue" {
     $openBugDialog(cardTitle: any): void
     $openAuthenticatioDialog(): void
     $getEscopo(idLocalidade: string): "brasil" | "mptreg" | "prtptm" | "regiao" | "estado" | "mesorregiao" | "microrregiao" | "municipio"
-    $getColSize(screenSize: string, classes: string): string | undefined
+    $getColSize(screenSize: string, classes: string | undefined): string | undefined
     $buildChartAdditionalOptions(store: MainStore, chartType: string, structure: any, chartOptions: any, dataset: any, metadata: any, sectionIndex: number = 0): any
     $chartGen(store: MainStore, id: string, chartType: string, structure: any, chartOptions: any, dataset: any, metadata: any, sectionIndex: number = 0): Promise<unknown> | undefined
     $chartRegen(store: MainStore, chartHandler: any, id: string, chartType: string, structure: any, chartOptions: any, dataset: any, metadata: any, sectionIndex: number = 0): Promise<unknown> | undefined

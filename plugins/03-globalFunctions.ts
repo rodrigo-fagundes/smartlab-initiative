@@ -58,10 +58,15 @@ export default defineNuxtPlugin((context: any) => {
     return "municipio"
   }
 
-  const getColSize = (screenSize: string, classes: string): string | undefined => {
-    const classArray = classes.split(" ")
-    const classMatch = classArray.find(cls => cls.startsWith(screenSize))
-    return classMatch ? classMatch.replace(screenSize, "") : undefined
+  const getColSize = (screenSize: string, classes: string | undefined): string | undefined => {
+    if (classes){
+      const classArray = classes.split(" ")
+      const classMatch = classArray.find(cls => cls.startsWith(screenSize))
+      return classMatch ? classMatch.replace(screenSize, "") : undefined
+    } else {
+      return undefined
+    }
+
   }
 
   const buildChartAdditionalOptions = (compRefs: Record<string, Ref<any>>, store: MainStore, chartType: string, structure: any, chartOptions: any, dataset: any, metadata: any, sectionIndex: number = 0) => {

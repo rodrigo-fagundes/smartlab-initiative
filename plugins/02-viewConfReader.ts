@@ -110,7 +110,7 @@ export default defineNuxtPlugin((_context: any) => {
           $fetch(UrlTransformService.getApiUrl(addedParams.endpoint))
             .then((result: any) => {
               let dataset = fnReformDataset(
-                result.data.dataset,
+                result.dataset,
                 structure.api.options,
                 customParams
               )
@@ -126,7 +126,7 @@ export default defineNuxtPlugin((_context: any) => {
                 structure.args,
                 structure,
                 addedParams,
-                result.data.metadata
+                result.metadata
               )
             }
             ).catch((error) => {
@@ -136,12 +136,12 @@ export default defineNuxtPlugin((_context: any) => {
         } else {
           // If the structure defines a single API call, execute the
           // callback after all the axios calls are resolved.
-          const promises: Promise<void>[] = []
+          const promises: Promise<any>[] = []
           for (const indexApi in addedParams.endpoint) {
             const promise = $fetch(UrlTransformService.getApiUrl(addedParams.endpoint[indexApi]))
               .then((result: any) => {
-                fnReformDataset(
-                  result.data.dataset,
+                return fnReformDataset(
+                  result.dataset,
                   structure.api[indexApi].options,
                   customParams
                 )
@@ -210,14 +210,14 @@ export default defineNuxtPlugin((_context: any) => {
           .then((result: any) => {
             cbFunction(
               fnReformDataset(
-                result.data.dataset,
+                result.dataset,
                 structure.api_reactive.options,
                 customParams
               ),
               structure.args,
               structure,
               addedParams,
-              result.data.metadata
+              result.metadata
             )
           }).catch((error) => {
             console.log(error)
@@ -238,7 +238,7 @@ export default defineNuxtPlugin((_context: any) => {
         )
       } else if (structure.preloaded) {
         // If the structure defines the usage of preloaded indicators.
-        if (Object.prototype.hasOwnProperty.call(this, structure.preloaded.function) && structure.preloaded.function === "slice") {
+        if (structure.preloaded.function === "slice") {
           cbFunction(
             fnReformDataset(
               indicators.slice(
@@ -274,7 +274,7 @@ export default defineNuxtPlugin((_context: any) => {
           $fetch(UrlTransformService.getApiUrl(url))
             .then((result: any) => {
               let dataset = fnReformDataset(
-                result.data.dataset,
+                result.dataset,
                 structure.api.options,
                 customParams
               )
@@ -290,7 +290,7 @@ export default defineNuxtPlugin((_context: any) => {
                 structure.args,
                 structure,
                 addedParams,
-                result.data.metadata
+                result.metadata
               )
             }).catch((error) => {
               console.log(error)
@@ -299,13 +299,13 @@ export default defineNuxtPlugin((_context: any) => {
         } else {
           // If the structure defines a single API call, execute the
           // callback after all the axios calls are resolved.
-          const promises: Promise<void>[] = []
+          const promises: Promise<any>[] = []
           for (const eachApi of structure.api) {
             // Cria um promise
             const promise = $fetch(UrlTransformService.getApiUrl(textTransformService.applyInterpol(eachApi, {}, customParams)))
               .then((result:any) => {
-                fnReformDataset(
-                  result.data.dataset,
+                return fnReformDataset(
+                  result.dataset,
                   eachApi.options,
                   customParams
                 )
