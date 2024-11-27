@@ -1,39 +1,58 @@
 <template>
-  <v-col :class="`${rowClass ? rowClass : 'pl-4 pr-0 pb-3 pt-3'} ${cardClass}`">
+  <v-col 
+    cols="12"
+    :class="`${rowClass ? rowClass : 'pl-4 pr-0 pb-3 pt-3'} ${cardClass}`"
+    :xs="getColSize('xs',cardClass)"
+    :sm="getColSize('sm',cardClass)"
+    :md="getColSize('md',cardClass)"
+    :lg="getColSize('lg',cardClass)"
+    :xl="getColSize('xl',cardClass)"
+
+  >
     <v-row
       :class="`minicard fill-height ${colorClass} ${relevance}`"
-      align="center"
-      class="flex-column" 
     >
-      <!-- Error Message -->
-      <v-col v-if="errorMessage" :class="`pa-0 minicard-comment ${commentColorClass}`">
-        <span v-html="errorMessage"></span>
-      </v-col>
+      <v-col>
+        <!-- Error Message -->
+        <v-row>
+          <v-col v-if="errorMessage" :class="`pa-0 minicard-comment ${commentColorClass}`">
+            <span v-html="errorMessage"></span>
+          </v-col>
+        </v-row>
 
-      <!-- Value -->
-      <v-col class="pa-0">
-        <span class="minicard-value" v-html="value"></span>
-      </v-col>
+        <!-- Value -->
+        <v-row>
+          <v-col class="pa-0">
+            <span class="minicard-value" v-html="value"></span>
+          </v-col>
+        </v-row>  
 
-      <!-- Description -->
-      <v-col class="pa-0">
-        <span class="title-obs-desc minicard-description" v-html="description ? description.toUpperCase() : ''"></span>
-      </v-col>
+        <!-- Description -->
+        <v-row>
+          <v-col class="pa-0">
+            <span class="title-obs-desc minicard-description" v-html="description ? description.toUpperCase() : ''"></span>
+          </v-col>
+        </v-row>  
 
-      <!-- Chart -->
-      <v-col v-if="dataset?.length > 1 && structure?.chart" class="minicard-chart">
-        <div
-          v-if="structure.chart?.type && isValidChart(structure.chart.type)"
-          :id="chartId"
-          ref="chart"
-          :class="isLeafletBasedCharts(structure.chart.type) ? 'map_geo' : ''"
-          class="fill-height"
-        />
-      </v-col>
+        <!-- Chart -->
+        <v-row>
+          <v-col v-if="dataset?.length > 1 && structure?.chart" class="minicard-chart">
+            <div
+              v-if="structure.chart?.type && isValidChart(structure.chart.type)"
+              :id="chartId"
+              ref="chart"
+              :class="isLeafletBasedCharts(structure.chart.type) ? 'map_geo' : ''"
+              class="fill-height"
+            />
+          </v-col>
+        </v-row>
 
-      <!-- Comment -->
-      <v-col class="pa-0">
-        <span :class="`minicard-comment ${commentColorClass}`" v-html="comment"></span>
+        <!-- Comment -->
+        <v-row>
+          <v-col class="pa-0">
+            <span :class="`minicard-comment ${commentColorClass}`" v-html="comment"></span>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-col>
@@ -66,7 +85,7 @@ export default defineComponent({
       props.customParams, 
       emit 
     )    
-    const { $reformDataset, $fillDataStructure, $validCharts, $leafletBasedCharts, $chartGen } = useNuxtApp()
+    const { $reformDataset, $fillDataStructure, $validCharts, $leafletBasedCharts, $chartGen, $getColSize } = useNuxtApp()
     const relevance = ref("")
     const description = ref("")
     const value = ref("")
@@ -78,6 +97,7 @@ export default defineComponent({
     const metadata = ref<Record<string, any> | null | undefined>(null)
     const errorMessage = ref<string | null>(null)
     const miniRefs: Record<string, Ref<any>>  = {"value": value, "description": description, "comment": comment}
+
 
     const chartId = computed(() => {
       return props.structure?.chart ? "chart_" + props.structure.chart.id : undefined
@@ -272,7 +292,8 @@ export default defineComponent({
       errorMessage,
       chartId,
       isValidChart,
-      isLeafletBasedCharts
+      isLeafletBasedCharts,
+      getColSize: $getColSize
     }
   }
 })

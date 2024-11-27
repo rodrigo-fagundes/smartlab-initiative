@@ -10,6 +10,8 @@
         <v-col v-if="eachSwitch.title" class="title-obs pa-0">
           {{ eachSwitch.title }}
         </v-col>
+      </v-row>
+      <v-row >
         <v-col>
           <v-switch
             v-model="selection[eachSwitch.id]"
@@ -21,8 +23,8 @@
           >
             <template #label>
               <v-row align="center">
-                <v-col>
-                  {{ eachSwitch.label || '' }}
+                <v-col v-if="eachSwitch.label">
+                  {{ eachSwitch.label }}
                 </v-col>
                 <FLPOMinicard
                   v-for="(miniCard, index) in eachSwitch.minicards"
