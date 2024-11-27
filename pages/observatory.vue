@@ -139,7 +139,7 @@
       v-if="smartlab && currentObs"
     >
       <v-col v-if="currentObs?.obsPage?.prevalencia?.odometers" cols="12" class="pt-0">
-        <v-row>
+        <v-row v-if="currentObs.obsPage.prevalencia.odometers.title">
           <v-col
             class="headline-obs text-center pa-0"
             :style="{
@@ -177,50 +177,55 @@
 
       <v-col cols="12" md="4" lg="3">
         <v-row
-          align="end"
           class="fill-height wrap pl-3 pt-3 pr-2 ma-0 subheading mb-0"
         >
-          <v-col class="headline-obs card-title pb-0 pl-3">
-            {{ prevTitle }}
-            <v-tooltip v-if="currentObs?.obsPage?.prevalencia.info" bottom>
-              <template v-slot:activator="{ props }">
-                <v-icon
-                  v-bind="props"
-                  color="accent"
-                  class="pb-1"
-                >
-                  info
-                </v-icon>
-              </template>
-              <FLPOCompositeText
-                :id="'info_home_prevalencia_' + currentObsId"
-                :structure="currentObs.obsPage.prevalencia.info"
+          <v-col>
+            <v-row>
+              <v-col class="headline-obs card-title pb-0 pl-3">
+                {{ prevTitle }}
+                <v-tooltip v-if="currentObs?.obsPage?.prevalencia.info" bottom>
+                  <template v-slot:activator="{ props }">
+                    <v-icon
+                      v-bind="props"
+                      color="accent"
+                      class="pb-1"
+                    >
+                      info
+                    </v-icon>
+                  </template>
+                  <FLPOCompositeText
+                    :id="'info_home_prevalencia_' + currentObsId"
+                    :structure="currentObs.obsPage.prevalencia.info"
+                    :custom-params="customParams"
+                  />
+                </v-tooltip>
+                <div v-if="prevTitleComment != null" class="title-comment" v-html="prevTitleComment"></div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <FLPOCompositeText
+                v-if="currentObs && currentObs.obsPage && currentObs.obsPage.prevalencia"
+                :id="'story_home_prevalencia' + currentObsId"
+                :section-class="'px-2 py-0'"
+                :structure="currentObs.obsPage.prevalencia.description"
                 :custom-params="customParams"
+                :reactive-filter="reactiveFilter"
+                :custom-filters="customParams"
               />
-            </v-tooltip>
-            <div v-if="prevTitleComment != null" class="title-comment" v-html="prevTitleComment"></div>
+              <!-- @selection="triggerSelect" -->
+
+              <FLPOCompositeText
+                v-if="currentObs && currentObs.obsPage && currentObs.obsPage.prevalencia && currentObs.obsPage.prevalencia.footer"
+                :id="'story_home_prevalencia_footer_' + currentObsId"
+                :section-class="'py-0'"
+                :structure="currentObs.obsPage.prevalencia.footer"
+                :custom-params="customParams"
+                :custom-filters="customParams"
+              />
+              </v-col>
+            </v-row>
           </v-col>
-
-          <FLPOCompositeText
-            v-if="currentObs && currentObs.obsPage && currentObs.obsPage.prevalencia"
-            :id="'story_home_prevalencia' + currentObsId"
-            :section-class="'px-2 py-0'"
-            :structure="currentObs.obsPage.prevalencia.description"
-            :custom-params="customParams"
-            :reactive-filter="reactiveFilter"
-            :custom-filters="customParams"
-          />
-          <!-- @selection="triggerSelect" -->
-
-          <FLPOCompositeText
-            v-if="currentObs && currentObs.obsPage && currentObs.obsPage.prevalencia && currentObs.obsPage.prevalencia.footer"
-            :id="'story_home_prevalencia_footer_' + currentObsId"
-            :section-class="'py-0'"
-            :structure="currentObs.obsPage.prevalencia.footer"
-            :custom-params="customParams"
-            :custom-filters="customParams"
-          />
-
         </v-row>
       </v-col>
       <v-col cols="12" md="8" lg="6">
@@ -390,6 +395,7 @@ export default {
         if (newValue){
           if (currentObs.value && currentObs.value.obsPage){
             parallaxFile.value = currentObs.value.obsPage.background_images[idParallaxfile.value]
+            loadOdometers()
           }
         }
       }
@@ -423,13 +429,21 @@ export default {
         )
       }
 
-      if (currentObs.value?.obsPage?.prevalencia && currentObs.value?.obsPage?.prevalencia.odometers) {
+      // if (smAndDown.value) {
+      //   obsMaxSlice.value = 11;
+      //   obsSlice.value = 0;
+      //   obsSliceSize.value = 1;
+      // }
+    })
+
+    const loadOdometers = () => {
+      if (currentObs.value?.obsPage?.prevalencia.odometers) {
         hasOdometers.value = true
         if (currentObsId.value == "sst") {
           const url = "/odometros/sst"
           $fetch(UrlTransformService.getApiUrl(url))
             .then((result: any) => {
-              const odometros = JSON.parse(result.data)
+              const odometros = JSON.parse(result)
               customParams.value.odometros = odometros
               loadedOdometers.value = true
             })
@@ -437,13 +451,7 @@ export default {
       } else {
         hasOdometers.value = false
       }
-
-      // if (smAndDown.value) {
-      //   obsMaxSlice.value = 11;
-      //   obsSlice.value = 0;
-      //   obsSliceSize.value = 1;
-      // }
-    })
+    }
 
     const setParallaxFile = () => {
       isFading.value = true
