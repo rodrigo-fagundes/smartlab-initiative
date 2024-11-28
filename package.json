@@ -37,7 +37,7 @@
     "leaflet.heat": "0.2.0",
     "leaflet.markercluster": "1.4.0",
     "nodemailer": "6.9.13",
-    "nuxt": "^2.17.0",
+    "nuxt": "^3.12.1",
     "odometer": "^0.4.8",
     "topojson-client": "3.1.0",
     "vue": "^2.7.10",
