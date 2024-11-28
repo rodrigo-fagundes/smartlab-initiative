@@ -43,7 +43,7 @@
     "vue": "^2.7.10",
     "vue-cookies": "^1.8.2",
     "vue-gtag": "^1.16.1",
-    "vue-server-renderer": "^2.7.10",
+    "vue-server-renderer": "^2.7.16",
     "vue-template-compiler": "^2.7.10",
     "vuetify": "^1.5.24",
     "vuetify-loader": "^1.2.2"
